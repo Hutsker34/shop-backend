@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
-from .models import Product
+from .models import Product, SomeInfo
 from .serialize import SomeInfoSerializer, ProductSerializer
 from rest_framework.response import Response
 # Create your views here.
