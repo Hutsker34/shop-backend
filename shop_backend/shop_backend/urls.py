@@ -18,10 +18,16 @@ from django.contrib import admin
 from django.urls import path
 from django.urls import re_path as url
 from backend_api.views import *
-
+from django.conf import settings  # new
+from django.urls import path, include  # new
+from django.conf.urls.static import static  # new
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('card/', SomeInfoView.as_view() , name='some info'),
-    path('product/', ProductView.as_view(), name='product')
+    path('products/', ProductView.as_view(), name='product'),
+    path('orders/', OrderView.as_view(), name='order')
 ]
+
+if settings.DEBUG:  # new
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
