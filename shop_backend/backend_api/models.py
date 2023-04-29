@@ -17,13 +17,22 @@ class Product(models.Model):
     img = models.ImageField(upload_to ='./assets', blank=True, default='./assets/1169.jpg')
 
     def __str__(self):
-        return f'Product {self.name}'
+        return f'Product {self.id}'
     
 class Order(models.Model):
-    product = models.ForeignKey('Product', verbose_name='продукт',                                                           
+    user_email = models.CharField(max_length=100, blank=False, null=False)
+    products = models.ManyToManyField('Product', verbose_name='Товары', through='ProductInOrder')
+
+    def __str__(self):
+        return f'Order {self.user_email}'
+    
+class ProductInOrder(models.Model):
+    product = models.ForeignKey('Product' ,verbose_name='продукт', default=0, 
         on_delete=models.CASCADE)
-    amount = models.IntegerField( verbose_name='количество', default=0 )
-        
-    # def __str__(self):
-    #     return f'Order {self.}'
+    order = models.ForeignKey('Order',verbose_name='заказ', default=0,
+        on_delete=models.CASCADE)
+    amount = models.IntegerField(verbose_name='Количество', default=0)
+    
+    def __str__(self):
+        return f'{self.product.name} x {self.amount}'
     

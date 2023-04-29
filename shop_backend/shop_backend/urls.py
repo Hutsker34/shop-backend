@@ -26,7 +26,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('card/', SomeInfoView.as_view() , name='some info'),
     path('products/', ProductView.as_view(), name='product'),
-    path('orders/', OrderView.as_view(), name='order')
+    path('orders/', OrderView.as_view(), name='order'),
+    path('checkout/', ProdectInOrderView.as_view(), name='order')
 ]
 
 if settings.DEBUG:  # new
