@@ -13,9 +13,15 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = [ 'name', 'cost','img']
 
 class OrderSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(source='pk', read_only=True) # добавляем поле id
     class Meta: 
         model = Order
-        fields = [ 'products', 'user_email' ]
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['id'] = instance.pk # устанавливаем значение поля id
+        return data
 
 class ProductInOrderSerializer(serializers.ModelSerializer):
     class Meta: 

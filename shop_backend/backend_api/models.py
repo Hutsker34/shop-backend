@@ -17,14 +17,14 @@ class Product(models.Model):
     img = models.ImageField(upload_to ='./assets', blank=True, default='./assets/1169.jpg')
 
     def __str__(self):
-        return f'Product {self.id}'
+        return f'Product {self.name}'
     
 class Order(models.Model):
     user_email = models.CharField(max_length=100, blank=False, null=False)
     products = models.ManyToManyField('Product', verbose_name='Товары', through='ProductInOrder')
 
     def __str__(self):
-        return f'Order {self.user_email}'
+        return f'Order {self.user_email} id {self.id}'
     
 class ProductInOrder(models.Model):
     product = models.ForeignKey('Product' ,verbose_name='продукт', default=0, 
