@@ -64,15 +64,17 @@ class OrderView(APIView):
         print('req', request.data)
         user_email = request.data.get('user_email',"marc32@gmail.com")
         product_ids = request.data.get('product_ids', [])
-        print('email', product_ids)
+        amount = request.data.get('amount', 2)
+
+        print('email', amount)
         # создаем новый объект заказа
         order = Order.objects.create(user_email=user_email)
         
         # добавляем выбранные продукты к заказу
         for product_id in product_ids:
             product = Product.objects.get(id=product_id)
-            order.products.add(product)
-            # ProductInOrder.objects.create(product=product, order=order)
+            # order.products.add(product)
+            ProductInOrder.objects.create(product=product, order=order, amount = amount)
 
         # сериализуем и возвращаем данные о заказе
         serializer = OrderSerializer(order)
@@ -84,7 +86,7 @@ class ProdectInOrderView(APIView):
             {
                 'product': output.name,
                 'order': output.order,
-                'amount': output.cost,
+                'amount': output.amount,
             } for output in Order.objects.all()
         ]
         return Response(output)

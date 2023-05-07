@@ -22,7 +22,7 @@ class Product(models.Model):
 class Order(models.Model):
     user_email = models.CharField(max_length=100, blank=False, null=False)
     products = models.ManyToManyField('Product', verbose_name='Товары', through='ProductInOrder')
-
+    
     def __str__(self):
         return f'Order {self.user_email} id {self.id}'
     
