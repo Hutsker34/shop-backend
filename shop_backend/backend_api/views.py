@@ -31,7 +31,8 @@ class ProductView(APIView):
             {
                 'name': output.name,
                 'cost': output.cost,
-                'img': output.img.url
+                'img': output.img.url,
+                'id': output.id
             } for output in Product.objects.all()
         ]
         return Response(output)
@@ -61,20 +62,19 @@ class OrderView(APIView):
 
     def post(self, request):
         # получаем данные о заказе из запроса
-        print('req', request.data)
         user_email = request.data.get('user_email',"marc32@gmail.com")
         product_ids = request.data.get('product_ids', [])
-        amount = request.data.get('amount', 2)
-
-        print('email', amount)
-        # создаем новый объект заказа
+        amount_array = request.data.get('amount', [])
         order = Order.objects.create(user_email=user_email)
-        
-        # добавляем выбранные продукты к заказу
-        for product_id in product_ids:
-            product = Product.objects.get(id=product_id)
-            # order.products.add(product)
+        for index , value  in enumerate(product_ids):
+            product = Product.objects.get(id=value)
+            amount = amount_array[index]
             ProductInOrder.objects.create(product=product, order=order, amount = amount)
+            
+        print('email', amount)
+        
+        
+        
 
         # сериализуем и возвращаем данные о заказе
         serializer = OrderSerializer(order)

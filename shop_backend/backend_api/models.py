@@ -15,7 +15,7 @@ class Product(models.Model):
     name = models.CharField(max_length=100)
     cost = models.CharField(max_length=100)
     img = models.ImageField(upload_to ='./assets', blank=True, default='./assets/1169.jpg')
-
+    
     def __str__(self):
         return f'Product {self.name}'
     
