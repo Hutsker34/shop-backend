@@ -20,6 +20,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source='pk', read_only=True) # добавляем поле id
+    products = ProductSerializer(many=True)
     class Meta: 
         model = Order
         fields = '__all__'

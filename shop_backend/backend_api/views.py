@@ -44,20 +44,33 @@ class ProductView(APIView):
             serializer.save()
             return Response(serializer.data)
         
+class OrdersView(APIView):
+    def post(self, request):
+        # получаем список всех заказов
 
-        
+        email = request.data.get('user_email',"marc32@gmail.com")
+        user_orders = Order.objects.filter(user_email=email)
+        orders_info = []
+
+        for order in user_orders:
+            orders_info.append(order.products)
+
+        # сериализуем и возвращаем данные о всех заказах
+        serializer = OrderSerializer(user_orders, many=True)
+        return Response(serializer.data)
+    
+
+
 class OrderView(APIView):
     def get(self, request, order_id):
         # получаем список всех заказов
         
-        products_in_order = ProductInOrder.objects.filter(order=order_id)
-        product_ids = products_in_order.values_list('product', flat=True)
-        products = Product.objects.filter(id__in=product_ids)
         
-        print('order', products)
+        order = Order.objects.get(id=order_id)
+
 
         # сериализуем и возвращаем данные о всех заказах
-        serializer = ProductSerializer(products, many=True)
+        serializer = OrderSerializer(order)
         return Response(serializer.data)
 
     def post(self, request):
@@ -71,11 +84,7 @@ class OrderView(APIView):
             amount = amount_array[index]
             ProductInOrder.objects.create(product=product, order=order, amount = amount)
             
-        print('email', amount)
         
-        
-        
-
         # сериализуем и возвращаем данные о заказе
         serializer = OrderSerializer(order)
         return Response(serializer.data)

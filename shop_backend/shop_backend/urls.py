@@ -26,7 +26,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('card/', SomeInfoView.as_view() , name='some info'),
     path('products/', ProductView.as_view(), name='product'),
-    path('orders/', OrderView.as_view(), name='order'),
+    path('orders/', OrdersView.as_view(), name='order'),
     path('orders/<int:order_id>/', OrderView.as_view(), name='order'),
     path('checkout/', ProdectInOrderView.as_view(), name='order'),
 ]
