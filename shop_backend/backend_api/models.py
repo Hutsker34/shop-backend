@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 # Create your models here.
 class SomeInfo(models.Model):
@@ -13,7 +14,7 @@ class SomeInfo(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    cost = models.CharField(max_length=100)
+    cost = models.IntegerField(max_length=100, default=0)
     img = models.ImageField(upload_to ='./assets', blank=True, default='./assets/1169.jpg')
     
     def __str__(self):
@@ -22,7 +23,8 @@ class Product(models.Model):
 class Order(models.Model):
     user_email = models.CharField(max_length=100, blank=False, null=False)
     products = models.ManyToManyField('Product', verbose_name='Товары', through='ProductInOrder')
-    
+    created_at = models.DateTimeField(default=datetime.now, editable=False)
+    total_cost = models.IntegerField(max_length=100, default=0)
     def __str__(self):
         return f'Order {self.user_email} id {self.id}'
     
