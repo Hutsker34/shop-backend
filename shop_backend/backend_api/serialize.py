@@ -18,6 +18,8 @@ class ProductSerializer(serializers.ModelSerializer):
         data['id'] = instance.pk # устанавливаем значение поля id
         return data
 
+
+
 class OrderSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source='pk', read_only=True) # добавляем поле id
     products = ProductSerializer(many=True)

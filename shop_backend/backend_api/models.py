@@ -13,10 +13,19 @@ class SomeInfo(models.Model):
         return f'cardNumber {self.cardNumber}'
 
 class Product(models.Model):
+    COLOR_CHOICES = [
+        ('red', 'Красный'),
+        ('yellow', 'Желтый'),
+        ('blue', 'Синий'),
+        ('black','черный'),
+        ('white', 'белый'),
+        ('default', 'другое')
+    ]
+
     name = models.CharField(max_length=100)
-    cost = models.IntegerField(max_length=100, default=0)
+    cost = models.IntegerField( default=0)
     img = models.ImageField(upload_to ='./assets', blank=True, default='./assets/1169.jpg')
-    
+    color = models.CharField(max_length=100, choices=COLOR_CHOICES, default='default')
     def __str__(self):
         return f'Product {self.name}'
     

@@ -123,4 +123,12 @@ class ProdectInOrderView(APIView):
         if product.is_valid(raise_exception=True):
             product.save()
             return Response(product.data)
-        
+    
+
+class ProductsSearchView(APIView):
+    def post(self, request):
+        colors = request.data['selectedColors']
+        products = Product.objects.filter(color__in=colors)
+        print('test', products)
+        serializer = ProductSerializer(products)
+        return Response(serializer.data) 
