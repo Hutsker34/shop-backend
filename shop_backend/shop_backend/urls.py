@@ -30,6 +30,7 @@ urlpatterns = [
     path('order/<int:order_id>/', OrderView.as_view(), name='order'),
     path('order/', OrderView.as_view(), name='order'),
     path('checkout/', ProdectInOrderView.as_view(), name='order'),
+    path('product/<int:product_id>/', ProductDetailView.as_view(), name='productInfo')
 ]
 
 if settings.DEBUG:  # new

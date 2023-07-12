@@ -37,4 +37,4 @@ class ProductInOrder(models.Model):
     
     def __str__(self):
         return f'{self.product.name} x {self.amount}'
-    
+

@@ -44,6 +44,17 @@ class ProductView(APIView):
             serializer.save()
             return Response(serializer.data)
         
+
+class ProductDetailView(APIView):
+    def get(self, request, product_id):
+        
+        product = Product.objects.get(id=product_id)
+
+        serializer = ProductSerializer(product)
+        return Response(serializer.data)      
+
+
+        
 class OrdersView(APIView):
     def post(self, request):
         # получаем список всех заказов
