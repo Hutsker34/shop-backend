@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from .models import Product, SomeInfo, Order, ProductInOrder
 from .serialize import SomeInfoSerializer, ProductSerializer , OrderSerializer , ProductInOrderSerializer
 from rest_framework.response import Response
+from django.db.models import Q
 import json
 # Create your views here.
 
@@ -126,9 +127,20 @@ class ProdectInOrderView(APIView):
     
 
 class ProductsSearchView(APIView):
+    # def post(self, request):
+    #     colors = request.data['selectedColors']
+    #     products = Product.objects.filter(color__in=colors)
+    #     print('test', products)
+    #     serializer = ProductSerializer(products)
+    #     return Response(serializer.data) 
     def post(self, request):
-        colors = request.data['selectedColors']
-        products = Product.objects.filter(color__in=colors)
-        print('test', products)
-        serializer = ProductSerializer(products)
-        return Response(serializer.data) 
+        selected_colors = request.data.get('selectedColors', [])
+        
+        # Построение условий фильтрации
+        filters = Q(color__in=selected_colors)
+
+        products = Product.objects.filter(filters)
+        serializer = ProductSerializer(products, many=True)
+        return Response(serializer.data)
+    
+    
