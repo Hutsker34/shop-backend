@@ -19,6 +19,16 @@ class Product(models.Model):
         ('blue', 'Синий'),
         ('black','черный'),
         ('white', 'белый'),
+        ('green', 'зелёный'),
+        ('default', 'другое')
+    ]
+    TYPE_CHOICES =[
+        ('cap', 'кепка'),
+        ('jamper', 'свитер'),
+        ('T-shirt', 'футболка'),
+        ('glass','очки'),
+        ('skirt', 'юбка'),
+        ('pants', 'штаны'),
         ('default', 'другое')
     ]
 
@@ -26,6 +36,7 @@ class Product(models.Model):
     cost = models.IntegerField( default=0)
     img = models.ImageField(upload_to ='./assets', blank=True, default='./assets/1169.jpg')
     color = models.CharField(max_length=100, choices=COLOR_CHOICES, default='default')
+    type = models.CharField(max_length=100, choices=TYPE_CHOICES, default='default')
     def __str__(self):
         return f'Product {self.name}'
     

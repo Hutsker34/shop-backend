@@ -130,22 +130,30 @@ class ProductsSearchView(APIView):
     
     def post(self, request):
         selected_colors = request.data.get('selectedColors', [])
+        selected_types = request.data.get('selectedTypes', [])
         lowPrice = request.data.get('lowPrice', '0')
         highPrice = request.data.get('highPrice', '0')
-
+        searchValue = request.data.get('searchValue', '')
+        searchValue = searchValue.strip()
 
         print('test', highPrice, lowPrice)
         # Построение условий фильтрации
 
+        products = Product.objects.all()
         
-        if len(selected_colors) == 0 : 
-            products = Product.objects.all()
-        else :
-            filters = Q(color__in=selected_colors)
-            products = Product.objects.filter(filters)
+        if len(selected_colors) > 0 : 
+            filters = Q(color__in=selected_colors) 
+            products = products.filter(filters)
+        
+        if len(selected_types) > 0: 
+            filters =  Q(type__in=selected_types)
+            products = products.filter(filters)
 
-        filterPrice = products.filter(Q(cost__gte=int(lowPrice)) & Q(cost__lte=int(highPrice)))
-        serializer = ProductSerializer(filterPrice, many=True)
+        if len(searchValue) > 0:
+            products = products.filter(name__icontains=searchValue)
+
+        # filterPrice = products.filter(Q(cost__gte=int(lowPrice)) & Q(cost__lte=int(highPrice)))
+        serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
     
     
