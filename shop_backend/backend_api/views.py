@@ -135,6 +135,7 @@ class ProductsSearchView(APIView):
         highPrice = request.data.get('highPrice', '0')
         searchValue = request.data.get('searchValue', '')
         searchValue = searchValue.strip()
+        filteredProducts = request.data.get('filteredProducts', [])
 
         print('test', highPrice, lowPrice)
         # Построение условий фильтрации
@@ -152,6 +153,8 @@ class ProductsSearchView(APIView):
         if len(searchValue) > 0:
             products = products.filter(name__icontains=searchValue)
 
+        if len(filteredProducts) > 0:
+            products = filteredProducts
         # filterPrice = products.filter(Q(cost__gte=int(lowPrice)) & Q(cost__lte=int(highPrice)))
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
