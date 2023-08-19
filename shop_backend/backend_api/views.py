@@ -136,7 +136,7 @@ class ProductsSearchView(APIView):
         searchValue = request.data.get('searchValue', '')
         searchValue = searchValue.strip()
         filteredProducts = request.data.get('filteredProducts', [])
-
+        
         
         # Построение условий фильтрации
 
@@ -153,7 +153,7 @@ class ProductsSearchView(APIView):
         if len(searchValue) > 0:
             products = products.filter(name__icontains=searchValue)
 
-        print('test',products)
+        print('test',highPrice)
 
         if int(lowPrice) > 0 and int(highPrice) > int(lowPrice):
             products = products.filter(Q(cost__gte=int(lowPrice)) & Q(cost__lte=int(highPrice)))
