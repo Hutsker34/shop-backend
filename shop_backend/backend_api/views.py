@@ -155,7 +155,7 @@ class ProductsSearchView(APIView):
 
         print('test',highPrice)
 
-        if int(lowPrice) > 0 and int(highPrice) > int(lowPrice):
+        if int(highPrice) > int(lowPrice) :
             products = products.filter(Q(cost__gte=int(lowPrice)) & Q(cost__lte=int(highPrice)))
         
         serializer = ProductSerializer(products, many=True)
