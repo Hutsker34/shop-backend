@@ -25,7 +25,7 @@ class Product(models.Model):
     TYPE_CHOICES =[
         ('cap', 'кепка'),
         ('jamper', 'свитер'),
-        ('T-shirt', 'футболка'),
+        ('t-shirt', 'футболка'),
         ('glass','очки'),
         ('skirt', 'юбка'),
         ('pants', 'штаны'),

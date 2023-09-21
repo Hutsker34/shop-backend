@@ -148,7 +148,12 @@ class ProductsSearchView(APIView):
         
         if len(selected_types) > 0: 
             filters =  Q(type__in=selected_types)
+            print('123',filters)
+            
+            for x in products:
+                print('456',x.type)
             products = products.filter(filters)
+            
 
         if len(searchValue) > 0:
             products = products.filter(name__icontains=searchValue)
